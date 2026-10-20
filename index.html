@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Round Robin Scheduling Visualizer</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <main class="container">
+            <header>
+                <p class="eyebrow">CPU SCHEDULING LAB</p>
+                <h1>Round Robin Scheduling Visualizer</h1>
+                <p class="muted">Enter processes, step through each millisecond, and compare time quantum values.</p>
+            </header>
+            <section class="panel">
+                <h2>1. Simulation settings</h2>
+                <div class="settings">
+                    <div>
+                        <label for="preset">Preset</label
+                        ><select id="preset">
+                            <option value="activity1">Activity 1 — no overhead</option>
+                            <option value="activity2">Activity 2 — 1 ms overhead</option>
+                            <option value="custom">Custom input</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="quantum">Time quantum (ms)</label
+                        ><input id="quantum" type="number" min="1" step="1" value="2" />
+                    </div>
+                    <div>
+                        <label for="overhead">Context-switch overhead (ms)</label
+                        ><input id="overhead" type="number" min="0" step="1" value="0" />
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process ID</th>
+                                <th>Arrival (ms)</th>
+                                <th>Burst (ms)</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inputs"></tbody>
+                    </table>
+                </div>
+                <div class="buttons">
+                    <button id="add" class="secondary">+ Add process</button
+                    ><button id="run" class="primary">Run simulation</button
+                    ><button id="compare" class="secondary">Compare quantum values</button>
+                </div>
+                <p id="message" class="muted" role="status">Ready.</p>
+            </section>
+            <section class="panel">
+                <h2>2. Step-by-step visualizer</h2>
+                <div class="stats">
+                    <div><span class="muted">Time</span><strong id="clock">0 ms</strong></div>
+                    <div><span class="muted">CPU status</span><strong id="status">Ready</strong></div>
+                </div>
+                <div class="now">
+                    <strong id="what">Run simulation to begin</strong>
+                    <p id="detail" class="muted"></p>
+                </div>
+                <div class="buttons">
+                    <button id="prev" class="secondary" disabled>← Previous 1 ms</button
+                    ><button id="next" class="primary" disabled>Next 1 ms →</button
+                    ><button id="play" class="secondary" disabled>▶ Play</button
+                    ><button id="reset" class="secondary" disabled>Reset timeline</button>
+                </div>
+                <h3>Process status</h3>
+                <div id="cards" class="cards"></div>
+                <h3>Gantt chart</h3>
+                <div class="gantt-scroll">
+                    <div id="gantt" class="gantt">Run the simulation to create the chart.</div>
+                </div>
+                <p class="muted">Each block is 1 ms. CS = context switch; IDLE = no process ready.</p>
+            </section>
+            <section class="panel">
+                <h2>3. Performance results</h2>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process</th>
+                                <th>AT</th>
+                                <th>BT</th>
+                                <th>CT</th>
+                                <th>TAT</th>
+                                <th>WT</th>
+                                <th>RT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results">
+                            <tr>
+                                <td colspan="7">Run simulation to see results.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="summary" class="summary"></div>
+                <p class="muted">CT = completion; TAT = CT − AT; WT = TAT − BT; RT = first start − AT.</p>
+            </section>
+            <section class="panel">
+                <h2>4. Quantum comparison</h2>
+                <div class="field">
+                    <label for="other">Second time quantum (ms)</label
+                    ><input id="other" type="number" min="1" step="1" value="3" />
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Quantum</th>
+                                <th>Avg TAT</th>
+                                <th>Avg WT</th>
+                                <th>Switches</th>
+                                <th>Overhead</th>
+                                <th>CPU efficiency</th>
+                            </tr>
+                        </thead>
+                        <tbody id="compare-results">
+                            <tr>
+                                <td colspan="6">Click Compare quantum values.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="compare-note" class="muted"></p>
+            </section>
+            <footer class="muted">
+                Runs locally in your browser; no data is uploaded. Arrival times during a CPU slice are queued before
+                the unfinished process is requeued.
+            </footer>
+        </main>
+    </body>
+</html>
